@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:takeanote_app/screens/home/home_screen.dart';
+import 'screens/splash/splash_screen.dart';
+import 'styles/app_style.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -16,12 +17,13 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        colorScheme: ColorScheme.fromSeed(seedColor: AppStyle.mainColor),
         useMaterial3: true,
       ),
-      home: const HomeScreen(),
+      home: const SplashScreen(),
     );
   }
 }
