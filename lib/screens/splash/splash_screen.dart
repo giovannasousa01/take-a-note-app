@@ -14,15 +14,17 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
-    return AnimatedSplashScreen(
-      duration: 3000,
-      splash: 'assets/images/logo_takeanote.png',
-      nextScreen: const HomeScreen(),
-      splashTransition: SplashTransition.scaleTransition,
-      pageTransitionType: PageTransitionType.fade,
-      animationDuration: const Duration(seconds: 3),
-      backgroundColor: Colors.white,
-      centered: true,
+    return Scaffold(
+      body: AnimatedSplashScreen(
+        duration: 3000,
+        splash: 'assets/images/logo_takeanote.png',
+        nextScreen: const HomeScreen(),
+        splashTransition: SplashTransition.fadeTransition,
+        pageTransitionType: PageTransitionType.leftToRightWithFade,
+        animationDuration: const Duration(seconds: 5),
+        backgroundColor: Colors.white,
+        centered: true,
+      ),
     );
   }
 }
