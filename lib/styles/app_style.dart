@@ -18,11 +18,11 @@ class AppStyle {
   ];
 
   static TextStyle mainTitle =
-      GoogleFonts.roboto(fontSize: 18.0, fontWeight: FontWeight.bold);
+      GoogleFonts.nunito(fontSize: 18.0, fontWeight: FontWeight.bold);
 
   static TextStyle mainContent =
       GoogleFonts.nunito(fontSize: 16.0, fontWeight: FontWeight.normal);
 
   static TextStyle dateTitle =
-      GoogleFonts.roboto(fontSize: 13.0, fontWeight: FontWeight.w500);
+      GoogleFonts.nunito(fontSize: 13.0, fontWeight: FontWeight.w500);
 }
