@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
 import 'package:takeanote_app/styles/app_style.dart';
+import 'package:takeanote_app/widgets/note_card.dart';
 
 import '../../widgets/lottie_animation.dart';
 
@@ -39,7 +40,7 @@ class _HomeScreenState extends State<HomeScreen> {
           children: [
             Text(
               "Suas notas recentes",
-              style: GoogleFonts.roboto(
+              style: GoogleFonts.nunito(
                 color: Colors.white,
                 fontSize: 22.0,
                 fontWeight: FontWeight.bold,
@@ -48,58 +49,72 @@ class _HomeScreenState extends State<HomeScreen> {
             const SizedBox(
               height: 20.0,
             ),
-            StreamBuilder<QuerySnapshot>(
-              stream:
-                  FirebaseFirestore.instance.collection("Notes").snapshots(),
-              builder: (BuildContext context, AsyncSnapshot snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return Container(
-                    alignment: Alignment.center,
-                    margin: const EdgeInsets.only(top: 250),
-                    color: Colors.amber,
-                    child: Lottie.asset(
-                      "assets/animation/loading_animation.json",
-                      height: 100,
-                      width: 100,
-                      fit: BoxFit.fill,
-                    ),
-                  );
-                }
-
-                if (snapshot.hasData) {
-                  return GridView(
-                    shrinkWrap: true,
-                    gridDelegate:
-                        const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                    ),
-                  );
-                }
-
-                return SizedBox(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      const LottieAnimation(
-                          pathAnimation:
-                              "assets/animation/empty_animation.json",
-                          width: 250,
-                          height: 250),
-                      Text(
-                        "Você não possui notas",
-                        style: GoogleFonts.nunito(
-                          color: Colors.white,
-                          fontSize: 14.0,
-                        ),
+            Expanded(
+              child: StreamBuilder<QuerySnapshot>(
+                stream:
+                    FirebaseFirestore.instance.collection("Notes").snapshots(),
+                builder: (BuildContext context,
+                    AsyncSnapshot<QuerySnapshot> snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return Container(
+                      alignment: Alignment.center,
+                      margin: const EdgeInsets.only(top: 250),
+                      color: Colors.amber,
+                      child: Lottie.asset(
+                        "assets/animation/loading_animation.json",
+                        height: 100,
+                        width: 100,
+                        fit: BoxFit.fill,
                       ),
-                    ],
-                  ),
-                );
-              },
-            )
+                    );
+                  }
+
+                  if (snapshot.hasData) {
+                    return GridView(
+                      shrinkWrap: true,
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2,
+                      ),
+                      children: snapshot.data!.docs
+                          .map((note) => noteCard(() {}, note))
+                          .toList(),
+                    );
+                  }
+
+                  return SizedBox(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        const LottieAnimation(
+                            pathAnimation:
+                                "assets/animation/empty_animation.json",
+                            width: 250,
+                            height: 250),
+                        Text(
+                          "Você não possui notas",
+                          style: GoogleFonts.nunito(
+                            color: Colors.white,
+                            fontSize: 14.0,
+                          ),
+                        ),
+                      ],
+                    ),
+                  );
+                },
+              ),
+            ),
           ],
+        ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {},
+        backgroundColor: AppStyle.bgColor,
+        child: Icon(
+          Icons.add_rounded,
+          color: AppStyle.mainColor,
         ),
       ),
     );
